@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:agenda_contatos/helpers/contact_helper.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 enum OrderOptions {
+  deletacontatos,
   telavazia,
   telacontatos,
   telacarregamento,
@@ -47,6 +49,10 @@ class _HomePageState extends State<HomePage> {
           PopupMenuButton<OrderOptions>(
             itemBuilder: (context) => <PopupMenuEntry<OrderOptions>>[
               const PopupMenuItem<OrderOptions>(
+                child: Text("Recarregar seus contatos"),
+                value: OrderOptions.refresh,
+              ),
+              const PopupMenuItem<OrderOptions>(
                 child: Text("Ordenar de A-Z"),
                 value: OrderOptions.ordernameaz,
               ),
@@ -71,10 +77,9 @@ class _HomePageState extends State<HomePage> {
                 value: OrderOptions.orderphoneno,
               ),
               const PopupMenuItem<OrderOptions>(
-                child: Text("Recarregar seus contatos"),
-                value: OrderOptions.refresh,
+                child: Text("Deletar todos seus contatos"),
+                value: OrderOptions.deletacontatos,
               ),
-
               const PopupMenuItem<OrderOptions>(
                 child: Text("Show loading screen"),
                 value: OrderOptions.telacarregamento,
@@ -298,6 +303,10 @@ class _HomePageState extends State<HomePage> {
       case OrderOptions.telacontatos:
         trocaTelaLista();
         break;
+
+      case OrderOptions.deletacontatos:
+        deletaContatos();
+        break;
     }
     setState(() {});
   }
@@ -390,7 +399,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   deletaContatos() {
-    setState(() {});
+    //contacts.clear();
+
   }
 
   trocaTelaCarregando() {
@@ -410,13 +420,12 @@ class _HomePageState extends State<HomePage> {
 
     criaLista();
 
-    Contact a = Contact();
+    //Contact a = Contact();
 
     // Atribui esse objeto a lista
 
+    // contacts = [a];
     contacts = criaLista();
-
-
   }
 
   List criaLista() {
